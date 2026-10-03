@@ -1,51 +1,132 @@
-/* ==========================================
-   1. Base Styles (Giao diện Mobile - Mặc định)
-   ========================================== */
+/* ===================================================
+   1. BASE STYLES & MOBILE VIEW (Mobile-First Approach)
+   =================================================== */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: Arial, sans-serif;
-  margin: 10px;
-  background-color: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Single column grid with 10px gap between rows and columns */
+.gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+figure {
+  margin: 0;
+  padding: 15px;
+  background-color: #ffffff;
+  border: 2px solid #dddddd;
+  box-sizing: border-box;
   text-align: center;
 }
 
-div {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 15px;
-  margin-bottom: 15px;
-  background-color: #ffffff;
-  border: 1px solid #cccccc;
-  border-radius: 8px;
-}
-
-img {
+figure img {
   width: 100%;
   height: auto;
-  border-radius: 4px;
+  display: block;
 }
 
-/* ==========================================
-   2. Query #1: Tablet View (Trigger tại 772px)
-   ========================================== */
+figure figcaption p {
+  margin: 10px 0 0 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* ===================================================
+   2. TABLET VIEW (Trigger at 772px)
+   =================================================== */
 @media screen and (min-width: 772px) {
-  div {
-    width: 45%;
-    display: inline-block;
-    vertical-align: top;
-    margin: 1%;
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  img {
-    max-height: 30vh;
-    object-fit: cover;
+  /* Circular shape for figures */
+  figure {
+    border-radius: 50%;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  figure img {
+    width: 60%;
+    border-radius: 50%;
+  }
+
+  /* Last figure takes up both columns */
+  figure:last-child {
+    grid-column: span 2;
   }
 }
 
-/* ==========================================
-   3. Query #2: Large Screen View (Trigger tại 998px)
-   ========================================== */
-@media screen and (min-width: 998px) {
-  div {
-    width: 30%;
+/* ===================================================
+   3. LARGE SCREEN VIEW (Trigger at 992px)
+   =================================================== */
+@media screen and (min-width: 992px) {
+  .gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Remove border radius from all figures */
+  figure {
+    border-radius: 0;
+    aspect-ratio: auto;
+  }
+
+  figure img {
+    width: 100%;
+    border-radius: 0;
+  }
+
+  /* Reset last-child span from tablet query */
+  figure:last-child {
+    grid-column: auto;
+  }
+
+  /* Every third figure takes up two columns */
+  figure:nth-child(3n) {
+    grid-column: span 2;
+  }
+}
+
+/* ===================================================
+   4. PREFERS-REDUCED-MOTION
+   =================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ===================================================
+   5. PREFERS-COLOR-SCHEME (Dark Mode)
+   =================================================== */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #ffffff;
+  }
+
+  figure {
+    background-color: #1e1e1e; /* Dark background */
+    color: #fef08a;            /* Light yellowish font color for contrast */
+    border-color: #000000;     /* Black border color */
   }
 }
